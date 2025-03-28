@@ -1,32 +1,40 @@
-import { auth } from "@/../auth"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import Link from "next/link"
+import { AppSidebar } from "@/components/app-sidebar"
+import { ChartAreaInteractive } from "@/components/chart-area-interactive"
+import { DataTable } from "@/components/data-table"
+import { SectionCards } from "@/components/section-cards"
+import { SiteHeader } from "@/components/site-header"
+import {
+  SidebarInset,
+  SidebarProvider,
+} from "@/components/ui/sidebar"
 
-export default async function DashboardPage() {
-  const session = await auth()
-  
+import data from "./data.json"
+
+export default function Page() {
   return (
-    <div className="container mx-auto py-10">
-      <Card>
-        <CardHeader>
-          <CardTitle>Dashboard</CardTitle>
-          <CardDescription>
-            Welcome back, {session?.user?.name || "User"}!
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-4">You are logged in as {session?.user?.email}</p>
-          <div className="flex space-x-4">
-            <Button asChild variant="outline">
-              <Link href="/profile">View Profile</Link>
-            </Button>
-            <Button asChild variant="destructive">
-              <Link href="/api/auth/signout">Sign Out</Link>
-            </Button>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <SectionCards />
+              <div className="px-4 lg:px-6">
+                <ChartAreaInteractive />
+              </div>
+              <DataTable data={data} />
+            </div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }

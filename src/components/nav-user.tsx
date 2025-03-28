@@ -8,6 +8,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react"
 import { signOut } from "next-auth/react"
+import Link from "next/link"
 
 import {
   Avatar,
@@ -85,9 +86,11 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <IconUserCircle />
-                Account
+              <DropdownMenuItem asChild>
+                <Link href="/account" className="flex items-center">
+                  <IconUserCircle className="mr-2 h-4 w-4" />
+                  <span>Account</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <IconCreditCard />
